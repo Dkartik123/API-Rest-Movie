@@ -1,3 +1,7 @@
+Here is the updated `README.md` file with your repository URL:
+
+---
+
 # Movie Database API
 
 ## Overview
@@ -61,8 +65,8 @@ The **Movie Database API** is a RESTful web service built using **Spring Boot** 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://your-repository-url.git
-cd movie-database-api
+git clone https://gitea.kood.tech/denislomakin/kmdb
+cd kmdb
 ```
 
 ### 2. Build the Project
@@ -370,7 +374,9 @@ Alternatively, you can use **Postman** to send POST requests to the API endpoint
 - **The Wolf of Wall Street** (2013)
 - **Get Out** (2017)
 - **Parasite** (2019)
-- **Mad Max: Fury Road** (2015)
+- **Mad Max:
+
+Fury Road** (2015)
 - **Avengers: Endgame** (2019)
 - **Django Unchained** (2012)
 - **Whiplash** (2014)
@@ -501,10 +507,10 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For questions or support, please contact:
 
-- **Name**: Your Name
-- **Email**: your.email@example.com
-- **GitHub**: [your-github-username](https://github.com/your-github-username)
+- **Name**: Denis Lomakin
+- **Email**: dkartik30@gmail.com
+- **GitHub**: [denislomakin](https://gitea.kood.tech/denislomakin/kmdb)
 
----
+--- 
 
-**Note**: Replace placeholders like `https://your-repository-url.git`, `Your Name`, and `your.email@example.com` with your actual information.
+This README file is tailored to your project, with all relevant details and instructions. Replace placeholders with your actual contact information if needed.
