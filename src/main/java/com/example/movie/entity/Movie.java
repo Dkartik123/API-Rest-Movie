@@ -1,25 +1,27 @@
 package com.example.movie.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.util.List;
 import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Movie {
 
-    @Id  // Use jakarta.persistence.Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @NotBlank(message = "Movie title is required")
     private String title;
@@ -28,10 +30,11 @@ public class Movie {
     private int releaseYear;
 
     @Positive(message = "Duration must be positive")
-    private int duration; // Duration in minutes
+    private int duration;
 
     @ManyToOne
-    @JoinColumn(name = "genre_id")
+    @JoinColumn(name = "genre_id", nullable = false)
+    @JsonBackReference // Breaks the circular reference on the Movie side
     private Genre genre;
 
     @ManyToMany
@@ -40,5 +43,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
-    private Set<Actor> actors;
+
+    private List<Actor> actors;
+
 }

@@ -1,7 +1,12 @@
 package com.example.movie.entity;
 
+import com.example.movie.service.ActorService;
+import com.example.movie.service.impl.MovieServiceImpl;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +23,7 @@ import java.util.Set;
 @Table(name = "Actors")
 public class Actor {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
     @Column(name = "name", nullable = false)
@@ -29,6 +34,8 @@ public class Actor {
     private LocalDate birthDate;
 
     @ManyToMany(mappedBy = "actors")
+    @JsonIgnore
+
     private Set<Movie> movies;
 
 }

@@ -46,7 +46,10 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.41.2.1</version> <!-- Latest version of SQLite JDBC -->
         </dependency>
-
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-community-dialects</artifactId>
+        </dependency>
         <!-- Jackson Databind: to support JSON serialization and deserialization -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

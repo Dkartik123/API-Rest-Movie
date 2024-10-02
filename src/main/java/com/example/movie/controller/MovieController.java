@@ -1,10 +1,10 @@
 package com.example.movie.controller;
 
+import com.example.movie.DTO.MovieRequestDto;
+import com.example.movie.DTO.MovieResponseDto;
 import com.example.movie.entity.Movie;
 import com.example.movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -18,26 +18,26 @@ public class MovieController {
     private MovieService movieService;
 
     @PostMapping
-    public Movie createMovie(@Valid @RequestBody Movie movie) {
-        return movieService.createMovie(movie);
+    public MovieResponseDto createMovie(@Valid @RequestBody MovieRequestDto movieRequestDto) {
+        return movieService.createMovie(movieRequestDto);
     }
 
     @GetMapping("/{id}")
-    public Movie getMovieById(@PathVariable Long id) {
+    public MovieResponseDto getMovieById(@PathVariable Long id) {
         return movieService.getMovieById(id);
     }
 
     @GetMapping
-    public List<Movie> getAllMovies(
+    public List<MovieResponseDto> getAllMovies(
             @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer page_size
+            @RequestParam(required = false) Integer size
     ) {
-            return movieService.getAllMovies(page, page_size);
+            return movieService.getAllMovies(page, size);
         }
 
 
     @PatchMapping("/{id}")
-    public Movie updateMovie(@PathVariable Long id, @RequestBody Movie movieDetails) {
+    public MovieResponseDto updateMovie(@PathVariable Long id, @RequestBody MovieRequestDto movieDetails) {
         return movieService.updateMovie(id, movieDetails);
     }
 
