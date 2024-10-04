@@ -8,13 +8,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -25,7 +24,7 @@ public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    private long id;
     @Column(name = "name", nullable = false)
     @NotBlank(message = "Actor name is required")
     private String name;
@@ -36,6 +35,6 @@ public class Actor {
     @ManyToMany(mappedBy = "actors")
     @JsonIgnore
 
-    private Set<Movie> movies;
+    private List<Movie> movies;
 
 }

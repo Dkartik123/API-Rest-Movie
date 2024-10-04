@@ -1,6 +1,8 @@
 package com.example.movie.controller;
 
 
+import com.example.movie.DTO.ActorRequestDto;
+import com.example.movie.DTO.ActorResponseDto;
 import com.example.movie.entity.Actor;
 import com.example.movie.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +21,25 @@ public class ActorController {
     private ActorService actorService;
 
     @PostMapping
-    public Actor createActor(@Valid @RequestBody Actor actor) {
-        return actorService.createActor(actor);
+    public ActorResponseDto createActor(@Valid @RequestBody ActorRequestDto actorRequestDto) {
+        return actorService.createActor(actorRequestDto);
     }
 
     @GetMapping("/{id}")
-    public Actor getActorById(@PathVariable Long id) {
+    public ActorResponseDto getActorById(@PathVariable Long id) {
         return actorService.getActorById(id);
     }
 
     @GetMapping
-    public List<Actor> getAllActors(@RequestParam(required = false) String name) {
-            return actorService.getAllActors();
+    public List<ActorResponseDto> getAllActors(
+            @RequestParam(required = false)Integer page,
+            @RequestParam(required = false)Integer size)
+    {
+            return actorService.getAllActors(page, size);
     }
 
     @PatchMapping("/{id}")
-    public Actor updateActor(@PathVariable Long id, @RequestBody Actor actorDetails) {
+    public ActorResponseDto updateActor(@PathVariable Long id, @RequestBody ActorRequestDto actorDetails) {
         return actorService.updateActor(id, actorDetails);
     }
 
