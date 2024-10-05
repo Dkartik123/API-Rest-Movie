@@ -1,5 +1,7 @@
 package com.example.movie.controller;
 
+import com.example.movie.DTO.GenreRequestDto;
+import com.example.movie.DTO.GenreResponseDto;
 import com.example.movie.entity.Genre;
 import com.example.movie.entity.Movie;
 import com.example.movie.service.GenreService;
@@ -20,17 +22,17 @@ public class GenreController {
     private GenreService genreService;
 
     @PostMapping
-    public Genre createGenre(@Valid @RequestBody Genre genre) {
+    public GenreResponseDto createGenre(@Valid @RequestBody GenreRequestDto genre) {
         return genreService.createGenre(genre);
     }
 
     @GetMapping("/{id}")
-    public Genre getGenreById(@PathVariable Long id) {
+    public GenreResponseDto getGenreById(@PathVariable Long id) {
         return genreService.getGenreById(id);
     }
 
     @GetMapping
-    public List<Genre> getAllGenre(
+    public List<GenreResponseDto> getAllGenre(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer page_size
     ) {
@@ -39,7 +41,7 @@ public class GenreController {
 
 
     @PatchMapping("/{id}")
-    public Genre updateGenre(@PathVariable Long id, @RequestBody Genre genreDetails) {
+    public GenreResponseDto updateGenre(@PathVariable Long id, @RequestBody GenreRequestDto genreDetails) {
         return genreService.updateGenre(id, genreDetails);
     }
 
