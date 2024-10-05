@@ -17,5 +17,5 @@ public interface MovieService {
     Page<Movie> getMoviesByGenre(Long genreId, Pageable pageable);
     Page<Movie> getMoviesByReleaseYear(int releaseYear, Pageable pageable);
     Page<Movie> getMoviesByActor(Long actorId, Pageable pageable);
-    Page<Movie> searchMoviesByTitle(String title, Pageable pageable);
+    Page<MovieResponseDto> searchMoviesByTitle(String title, Pageable pageable);
 }

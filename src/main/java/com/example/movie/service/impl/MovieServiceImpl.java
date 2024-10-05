@@ -60,13 +60,13 @@ public class MovieServiceImpl implements MovieService {
 
         movie.setActors(actors);
 
-        return converMovieToDto(movieRepository.save(movie));
+        return convertMovieToDto(movieRepository.save(movie));
     }
 
     @Override
     public MovieResponseDto getMovieById(Long id) {
         Movie movie = getMovieByIdFromDb(id);
-        return converMovieToDto(movie);
+        return convertMovieToDto(movie);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class MovieServiceImpl implements MovieService {
         else {
             movies = movieRepository.findAll();
         }
-        return movies.stream().map(movie -> converMovieToDto(movie)).collect(Collectors.toList());
+        return movies.stream().map(movie -> convertMovieToDto(movie)).collect(Collectors.toList());
     }
 
     @Override
@@ -105,7 +105,7 @@ public class MovieServiceImpl implements MovieService {
 
         // Step 5: Set the actors in the movie
         movie.setActors(actors);
-        return converMovieToDto(movieRepository.save(movie));
+        return convertMovieToDto(movieRepository.save(movie));
     }
 
     @Override
@@ -137,17 +137,20 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<Movie> searchMoviesByTitle(String title, Pageable pageable) {
-        return movieRepository.findByTitleContainingIgnoreCase(title, pageable);
-    }
+    public Page<MovieResponseDto> searchMoviesByTitle(String title, Pageable pageable) {
+        // Implementation to find movies by title
+        Page<Movie> moviesPage = movieRepository.findByTitleContainingIgnoreCase(title, pageable);
 
+        // Convert Page<Movie> to Page<MovieResponseDto>
+        return moviesPage.map(this::convertMovieToDto);
+    }
 
     private Movie getMovieByIdFromDb(Long id) {
         return
                 movieRepository.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id " + id));
     }
-    private MovieResponseDto converMovieToDto(Movie movie) {
+    private MovieResponseDto convertMovieToDto(Movie movie) {
         return MovieResponseDto.builder()
             .id(movie.getId())
             .title(movie.getTitle())

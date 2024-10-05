@@ -5,6 +5,10 @@ import com.example.movie.DTO.MovieResponseDto;
 import com.example.movie.entity.Movie;
 import com.example.movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -34,7 +38,21 @@ public class MovieController {
     ) {
             return movieService.getAllMovies(page, size);
         }
+    @GetMapping("/search")
+    public ResponseEntity<List<MovieResponseDto>> findByTitleContainingIgnoreCase(
+            @RequestParam String title,                          // Accept a title parameter for searching
+            @RequestParam(defaultValue = "0") Integer page,      // Default page number is 0 (first page)
+            @RequestParam(defaultValue = "10") Integer size      // Default size is 10 items per page
+    ) {
+        // Step 1: Create a Pageable object
+        Pageable pageable = PageRequest.of(page, size);
 
+        // Step 2: Call the service method to search for movies
+        Page<MovieResponseDto> moviePage = movieService.searchMoviesByTitle(title, pageable);
+
+        // Step 3: Return the results
+        return ResponseEntity.ok(moviePage.getContent());
+    }
 
     @PatchMapping("/{id}")
     public MovieResponseDto updateMovie(@PathVariable Long id, @RequestBody MovieRequestDto movieDetails) {
