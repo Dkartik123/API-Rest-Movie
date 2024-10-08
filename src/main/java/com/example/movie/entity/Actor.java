@@ -1,18 +1,18 @@
 package com.example.movie.entity;
 
-import com.example.movie.service.ActorService;
-import com.example.movie.service.impl.MovieServiceImpl;
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
 import jakarta.validation.constraints.Past;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

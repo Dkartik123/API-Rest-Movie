@@ -23,70 +23,82 @@ public class GenreServiceImpl implements GenreService {
     @Autowired
     private GenreRepository genreRepository;
 
+    // Method to create a new Genre
     @Override
     public GenreResponseDto createGenre(GenreRequestDto genreRequestDto) {
-        // Создание жанра из данных DTO
+        // Creating Genre entity from GenreRequestDto
         Genre genre = new Genre();
         genre.setName(genreRequestDto.getName());
 
-        // Сохранение жанра и преобразование в GenreResponseDto
+        // Saving the Genre entity and converting to GenreResponseDto
         return convertToDto(genreRepository.save(genre));
     }
 
+    // Method to retrieve a Genre by its ID
     @Override
     public GenreResponseDto getGenreById(Long id) {
-        // Поиск жанра по ID и преобразование в DTO
+        // Fetching Genre by ID or throwing exception if not found
         Genre genre = genreRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Genre not found with id " + id));
+
+        // Converting the Genre entity to GenreResponseDto
         return convertToDto(genre);
     }
 
+    // Method to get all genres, with optional pagination
     @Override
     public List<GenreResponseDto> getAllGenres(Integer page, Integer size) {
-        // Получение всех жанров с опциональной пагинацией
+        // List to store all retrieved genres
         List<Genre> genres;
+
+        // If pagination parameters are provided, get a page of genres
         if (page != null && size != null) {
             Pageable pageable = PageRequest.of(page, size);
             Page<Genre> genrePage = genreRepository.findAll(pageable);
             genres = genrePage.getContent();
         } else {
+            // If no pagination, retrieve all genres
             genres = genreRepository.findAll();
         }
 
-        // Преобразование списка жанров в список GenreResponseDto
+        // Convert the list of Genre entities to GenreResponseDto
         return genres.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    // Method to update the details of an existing Genre
     @Override
     public GenreResponseDto updateGenre(Long id, GenreRequestDto genreRequestDto) {
-        // Поиск жанра по ID и обновление его данных из DTO
+        // Fetching the Genre entity by ID or throwing an exception if not found
         Genre genre = genreRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Genre not found with id " + id));
 
+        // Update the name of the Genre if provided in request DTO
         if (genreRequestDto.getName() != null) {
             genre.setName(genreRequestDto.getName());
         }
 
-        // Сохранение обновленного жанра и преобразование в GenreResponseDto
+        // Save the updated Genre and convert it to GenreResponseDto
         return convertToDto(genreRepository.save(genre));
     }
 
+    // Method to delete a genre, with an option to cascade delete movies associated with the genre
     @Override
     public void deleteGenre(Long id, boolean cascade) {
-        // Поиск жанра по ID и проверка на наличие связанных фильмов
+        // Fetch the Genre entity by ID or throw exception if not found
         Genre genre = genreRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Genre not found with id " + id));
 
+        // If cascade delete is not allowed and there are associated movies, throw an exception
         if (!cascade && (genre.getMovies() != null && !genre.getMovies().isEmpty())) {
             throw new RuntimeException("Cannot delete genre '" + genre.getName() + "' because it has "
                     + genre.getMovies().size() + " associated movies.");
         }
 
-        // Удаление жанра
+        // Delete the Genre entity
         genreRepository.delete(genre);
     }
 
-    // Метод для конвертации Genre в GenreResponseDto
+    // Helper method to convert Genre entity to GenreResponseDto
     private GenreResponseDto convertToDto(Genre genre) {
         return GenreResponseDto.builder()
                 .id(genre.getId())
@@ -97,7 +109,7 @@ public class GenreServiceImpl implements GenreService {
                 .build();
     }
 
-    // Метод для конвертации Movie в GenreResponseMovieDto
+    // Helper method to convert Movie entity to GenreResponseMovieDto
     private GenreResponseMovieDto convertToMovieDto(Movie movie) {
         return GenreResponseMovieDto.builder()
                 .id(movie.getId())

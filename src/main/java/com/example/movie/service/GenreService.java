@@ -7,18 +7,25 @@ import java.util.List;
 
 public interface GenreService {
 
-    // Создание жанра, используя данные из GenreRequestDto
+    // Creates a new genre using data from GenreRequestDto
+    // Takes genreRequestDto as input and returns GenreResponseDto with the created genre details
     GenreResponseDto createGenre(GenreRequestDto genreRequestDto);
 
-    // Получение жанра по ID, возвращает GenreResponseDto
+    // Retrieves a genre by its ID
+    // Takes a genre ID as input and returns GenreResponseDto with the found genre details
     GenreResponseDto getGenreById(Long id);
 
-    // Получение всех жанров с опциональной пагинацией
+    // Retrieves all genres, optionally with pagination
+    // Accepts page number and page size as optional input parameters
+    // Returns a list of GenreResponseDto containing details of all found genres
     List<GenreResponseDto> getAllGenres(Integer page, Integer size);
 
-    // Обновление существующего жанра по ID, используя данные из GenreRequestDto
+    // Updates an existing genre by ID using data from GenreRequestDto
+    // Takes a genre ID and genreRequestDto as input, and returns GenreResponseDto with the updated genre details
     GenreResponseDto updateGenre(Long id, GenreRequestDto genreRequestDto);
 
-    // Удаление жанра с возможностью каскадного удаления связанных данных
+    // Deletes a genre by its ID, with an option for cascading deletion of associated movies
+    // Takes a genre ID and a boolean 'cascade' parameter as input
+    // If cascade is true, deletes associated movies as well
     void deleteGenre(Long id, boolean cascade);
 }
